@@ -1,166 +1,67 @@
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import { Bell, ChevronLeft, ChevronRight, ShoppingBag } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 type CatalogItem = {
   title: string;
   author: string;
   badge: string;
-  badgeClass: string;
   price: string;
   coverClass: string;
   detailHref?: string;
-  cta: string;
 };
 
 const categories = ['Humanities', 'Social Sciences', 'Natural Sciences', 'Technology'];
 
 const catalogItems: CatalogItem[] = [
-  {
-    title: 'Modern Digital Publishing',
-    author: 'Dr. James Sterling',
-    badge: 'New Release',
-    badgeClass:
-      'bg-green-50 text-green-700 ring-green-600/20 dark:bg-green-900/30 dark:text-green-300',
-    price: '$29.99',
-    coverClass: 'from-emerald-500 to-emerald-800',
-    detailHref: '/product',
-    cta: 'View Article',
-  },
-  {
-    title: 'Ecological Systems',
-    author: 'Prof. Elena Rodriguez',
-    badge: 'Bestseller',
-    badgeClass: 'bg-blue-50 text-blue-700 ring-blue-700/10 dark:bg-blue-900/30 dark:text-blue-300',
-    price: '$32.50',
-    coverClass: 'from-blue-500 to-indigo-700',
-    detailHref: '/product',
-    cta: 'View Article',
-  },
-  {
-    title: 'Quantum Futures',
-    author: 'J. Doe & K. West',
-    badge: 'Coming Soon',
-    badgeClass:
-      'bg-amber-50 text-amber-700 ring-amber-600/20 dark:bg-amber-900/30 dark:text-amber-400',
-    price: 'Late 2024',
-    coverClass: 'from-slate-700 to-slate-900',
-    cta: 'Notify Me',
-  },
-  {
-    title: 'Historical Linguistics',
-    author: 'Dr. Sarah Jenkins',
-    badge: 'Monograph',
-    badgeClass: 'bg-slate-50 text-slate-600 ring-slate-500/10 dark:bg-slate-700/50 dark:text-slate-400',
-    price: '$28.00',
-    coverClass: 'from-orange-400 to-red-500',
-    detailHref: '/product',
-    cta: 'View Article',
-  },
-  {
-    title: 'Digital Ethics Quarterly',
-    author: 'Multiple Authors',
-    badge: 'Journal',
-    badgeClass: 'bg-slate-50 text-slate-600 ring-slate-500/10 dark:bg-slate-700/50 dark:text-slate-400',
-    price: '$15.00',
-    coverClass: 'from-purple-500 to-fuchsia-600',
-    detailHref: '/product',
-    cta: 'View Article',
-  },
-  {
-    title: 'Urban Resilience',
-    author: 'M. Chang',
-    badge: 'Coming Soon',
-    badgeClass:
-      'bg-amber-50 text-amber-700 ring-amber-600/20 dark:bg-amber-900/30 dark:text-amber-400',
-    price: 'Early 2025',
-    coverClass: 'from-cyan-600 to-blue-800',
-    cta: 'Notify Me',
-  },
-  {
-    title: 'Poetics of Nature',
-    author: 'Ed. L. Green',
-    badge: 'Anthology',
-    badgeClass: 'bg-slate-50 text-slate-600 ring-slate-500/10 dark:bg-slate-700/50 dark:text-slate-400',
-    price: '$22.00',
-    coverClass: 'from-rose-300 to-pink-500',
-    detailHref: '/product',
-    cta: 'View Article',
-  },
-  {
-    title: 'Architecture 101',
-    author: 'Prof. R. Koolhaas',
-    badge: 'Textbook',
-    badgeClass: 'bg-slate-50 text-slate-600 ring-slate-500/10 dark:bg-slate-700/50 dark:text-slate-400',
-    price: '$55.00',
-    coverClass: 'from-gray-600 to-gray-800',
-    detailHref: '/product',
-    cta: 'View Article',
-  },
+  { title: 'Modern Digital Publishing', author: 'Dr. James Sterling', badge: 'New Release', price: '$29.99', coverClass: 'from-[#7b968e] to-[#58756d]', detailHref: '/product' },
+  { title: 'Ecological Systems', author: 'Prof. Elena Rodriguez', badge: 'Bestseller', price: '$32.50', coverClass: 'from-[#557ea2] to-[#335d81]', detailHref: '/product' },
+  { title: 'Quantum Futures', author: 'J. Doe & K. West', badge: 'Coming Soon', price: 'Late 2024', coverClass: 'from-[#586476] to-[#1e2835]' },
+  { title: 'Historical Linguistics', author: 'Dr. Sarah Jenkins', badge: 'Monograph', price: '$28.00', coverClass: 'from-[#c68b58] to-[#a55b37]', detailHref: '/product' },
+  { title: 'Digital Ethics Quarterly', author: 'Multiple Authors', badge: 'Journal', price: '$15.00', coverClass: 'from-[#9f79bf] to-[#77569d]', detailHref: '/product' },
+  { title: 'Urban Resilience', author: 'M. Chang', badge: 'Coming Soon', price: 'Early 2025', coverClass: 'from-[#4b8198] to-[#2b5973]' },
+  { title: 'Poetics of Nature', author: 'Ed. L. Green', badge: 'Anthology', price: '$22.00', coverClass: 'from-[#d8a2aa] to-[#b87485]', detailHref: '/product' },
+  { title: 'Architecture 101', author: 'Prof. R. Koolhaas', badge: 'Textbook', price: '$55.00', coverClass: 'from-[#858a92] to-[#51565f]', detailHref: '/product' },
 ];
 
 function CatalogCard({ item }: { item: CatalogItem }) {
   const isAvailable = Boolean(item.detailHref);
 
   return (
-    <div
-      className={`group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-all duration-300 dark:border-slate-800 dark:bg-slate-800/50 ${
-        isAvailable ? 'hover:-translate-y-1 hover:shadow-lg' : 'opacity-90 hover:opacity-100 hover:shadow-lg'
-      }`}
-    >
-      <div className="relative flex aspect-[3/4] w-full items-center justify-center overflow-hidden bg-slate-100 p-8 dark:bg-slate-700">
-        <div className={`flex h-full w-full items-center justify-center rounded-sm bg-gradient-to-br ${item.coverClass} shadow-md`}>
-          <div className="h-14 w-14 rounded-full border border-white/30" />
-        </div>
+    <div className="overflow-hidden rounded-md border border-[#e3e9f0] bg-white">
+      <div className="relative flex aspect-[3/4] items-center justify-center bg-[#eef3f7] p-8">
+        <div className={`h-full w-full rounded-sm bg-gradient-to-br ${item.coverClass} shadow-[0_12px_20px_rgba(15,23,42,0.14)]`} />
         {!isAvailable && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px]">
-            <span className="rounded-full bg-black/70 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
-              Preview
-            </span>
+          <div className="absolute inset-0 flex items-center justify-center bg-black/10">
+            <span className="rounded-full bg-black/70 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-white">Preview</span>
           </div>
         )}
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-5">
+      <div className="p-5">
         <div className="flex items-center justify-between">
-          <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${item.badgeClass}`}>
-            {item.badge}
-          </span>
-          <span className="text-xs font-medium text-slate-400 dark:text-slate-500">{item.price}</span>
+          <span className="rounded bg-[#edf3fa] px-2 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[#173a73]">{item.badge}</span>
+          <span className="text-xs font-semibold text-[#8190a6]">{item.price}</span>
         </div>
-
-        {isAvailable ? (
-          <Link to={item.detailHref!} className="block">
-            <h3 className="mb-1 text-lg font-bold leading-tight tracking-tight text-slate-900 transition-colors group-hover:text-primary dark:text-slate-100">
-              {item.title}
-            </h3>
-            <p className="text-sm font-normal text-slate-500 dark:text-slate-400">{item.author}</p>
-          </Link>
-        ) : (
-          <div>
-            <h3 className="mb-1 text-lg font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100">
-              {item.title}
-            </h3>
-            <p className="text-sm font-normal text-slate-500 dark:text-slate-400">{item.author}</p>
-          </div>
-        )}
-
-        <div className="mt-auto pt-4">
+        <h3 className="mt-4 text-2xl font-bold leading-tight text-[#121d37]">{item.title}</h3>
+        <p className="mt-1 text-sm text-[#6d7b91]">{item.author}</p>
+        <div className="mt-5">
           {isAvailable ? (
             <Link
               to={item.detailHref!}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              className="flex w-full items-center justify-center gap-2 rounded-[3px] bg-[#0d3874] py-3 text-sm font-bold text-white transition-colors hover:bg-[#0a2d5e]"
             >
-              <ShoppingBag size={18} />
-              {item.cta}
+              <ShoppingBag size={16} />
+              View Article
             </Link>
           ) : (
             <button
-              className="flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-slate-100 py-2.5 text-sm font-medium text-slate-400 dark:bg-slate-700 dark:text-slate-500"
+              type="button"
               disabled
+              className="flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-[3px] bg-[#edf2f7] py-3 text-sm font-bold text-[#9aa7bb]"
             >
-              <Bell size={18} />
-              {item.cta}
+              <Bell size={16} />
+              Notify Me
             </button>
           )}
         </div>
@@ -176,28 +77,25 @@ export function LibraryPage() {
         <title>Digital Library Catalog - Academic Press</title>
       </Helmet>
 
-      <div className="flex flex-grow flex-col items-center">
-        <div className="w-full max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
-          <div className="mb-10 flex flex-col gap-3">
-            <h1 className="text-4xl font-black leading-tight tracking-[-0.033em] text-slate-900 md:text-5xl dark:text-slate-100">
-              Digital Library Catalog
-            </h1>
-            <p className="max-w-2xl text-lg font-normal leading-normal text-slate-500 dark:text-slate-400">
-              Explore our collection of peer-reviewed digital monographs and academic journals. Click any available
-              title to open the full article detail page.
+      <div className="py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12">
+            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.22em] text-[#173a73]">Catalog</span>
+            <h1 className="font-serif text-4xl font-bold text-[#0e1731] sm:text-5xl">Digital Library Catalog</h1>
+            <p className="mt-6 max-w-3xl text-lg leading-9 text-[#4d5f7b]">
+              Explore our collection of peer-reviewed digital monographs and academic journals. Click any available title to open the full article detail page.
             </p>
           </div>
 
-          <div className="mb-10 flex flex-wrap gap-3 border-b border-slate-200 pb-6 dark:border-slate-800">
-            <button className="flex h-9 items-center justify-center gap-x-2 rounded-full bg-slate-900 px-5 transition-transform active:scale-95 dark:bg-slate-100">
-              <span className="text-sm font-medium leading-normal text-white dark:text-slate-900">All Categories</span>
-            </button>
+          <div className="mb-10 flex flex-wrap gap-3 border-b border-[#e3e9f0] pb-6">
+            <button type="button" className="rounded-full bg-[#0d1733] px-5 py-2 text-sm font-semibold text-white">All Categories</button>
             {categories.map((category) => (
               <button
                 key={category}
-                className="flex h-9 items-center justify-center gap-x-2 rounded-full bg-slate-100 px-5 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
+                type="button"
+                className="rounded-full bg-white px-5 py-2 text-sm font-medium text-[#52647f] ring-1 ring-[#d8e0ea] transition-colors hover:bg-[#edf3fa]"
               >
-                <span className="text-sm font-medium leading-normal text-slate-700 dark:text-slate-300">{category}</span>
+                {category}
               </button>
             ))}
           </div>
@@ -209,15 +107,15 @@ export function LibraryPage() {
           </div>
 
           <div className="mt-12 flex items-center justify-center gap-2">
-            <button className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">
+            <button type="button" className="flex h-10 w-10 items-center justify-center rounded-md text-[#7f8ea8] hover:bg-white">
               <ChevronLeft size={20} />
             </button>
-            <button className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white">1</button>
-            <button className="flex h-10 w-10 items-center justify-center rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">2</button>
-            <button className="flex h-10 w-10 items-center justify-center rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">3</button>
-            <span className="flex h-10 w-10 items-center justify-center text-slate-400 dark:text-slate-500">...</span>
-            <button className="flex h-10 w-10 items-center justify-center rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">12</button>
-            <button className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">
+            <button type="button" className="flex h-10 w-10 items-center justify-center rounded-md bg-[#0d3874] text-sm font-bold text-white">1</button>
+            <button type="button" className="flex h-10 w-10 items-center justify-center rounded-md text-sm font-medium text-[#52647f] hover:bg-white">2</button>
+            <button type="button" className="flex h-10 w-10 items-center justify-center rounded-md text-sm font-medium text-[#52647f] hover:bg-white">3</button>
+            <span className="flex h-10 w-10 items-center justify-center text-[#9aa7bb]">...</span>
+            <button type="button" className="flex h-10 w-10 items-center justify-center rounded-md text-sm font-medium text-[#52647f] hover:bg-white">12</button>
+            <button type="button" className="flex h-10 w-10 items-center justify-center rounded-md text-[#7f8ea8] hover:bg-white">
               <ChevronRight size={20} />
             </button>
           </div>

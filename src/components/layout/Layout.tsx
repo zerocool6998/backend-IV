@@ -5,7 +5,7 @@ import { ScrollToTop } from '../utils/ScrollToTop';
 
 export function Layout() {
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">
+    <div className="flex min-h-screen flex-col bg-background-light text-[#12233f]">
       <ScrollToTop />
       <Header />
       <main className="flex-1">
