@@ -1,0 +1,75 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: iv_backend
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d iv_backend"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 4000
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/iv_backend
+      JWT_SECRET: replace-me-with-a-long-random-secret-123456
+      JWT_EXPIRES_IN: 15m
+      GUEST_SECRET_HMAC_KEY: replace-me-with-a-long-random-hmac-secret
+      DOWNLOAD_TOKEN_HMAC_KEY: replace-me-with-a-different-long-random-hmac-secret
+      FRONTEND_BASE_URL: http://localhost:3000
+      CHECKOUT_SUCCESS_PATH: /checkout/success
+      CHECKOUT_CANCEL_PATH: /checkout/cancel
+      STRIPE_SECRET_KEY: sk_test_local_compose
+      STRIPE_WEBHOOK_SECRET: whsec_local_compose
+      PADDLE_API_KEY: pdl_test_local_compose
+      PADDLE_WEBHOOK_SECRET: paddle_local_compose
+      PADDLE_ENVIRONMENT: sandbox
+      STORAGE_ENDPOINT: http://minio:9000
+      STORAGE_REGION: us-east-1
+      STORAGE_BUCKET: iv-downloads
+      STORAGE_ACCESS_KEY_ID: minioadmin
+      STORAGE_SECRET_ACCESS_KEY: minioadmin
+      STORAGE_FORCE_PATH_STYLE: "true"
+      STORAGE_HEALTHCHECK_KEY: healthcheck.txt
+      DOWNLOAD_URL_TTL_SECONDS: 120
+      DOWNLOAD_TOKEN_TTL_SECONDS: 604800
+      UPLOAD_URL_TTL_SECONDS: 900
+      CORS_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
+      RATE_LIMIT_MAX: 100
+      RATE_LIMIT_WINDOW: 1 minute
+      BUILD_SHA: local-compose
+      BUILD_TIMESTAMP: 2026-03-03T00:00:00.000Z
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "4000:4000"
+
+  minio:
+    image: minio/minio:RELEASE.2025-02-18T16-25-55Z
+    profiles: ["s3"]
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
+volumes:
+  postgres_data:
+  minio_data:
