@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Playfair+Display:wght@700&display=swap');
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-primary: #003366;
+  --color-primary-dark: #002244;
+  --color-primary-light: #e6eff9;
+  --color-background-light: #fafafa;
+  --color-background-dark: #101622;
+  --color-surface-light: #fafafa;
+  --color-surface-dark: #1a2233;
+  --color-text-main: #003366;
+  --color-text-muted: #52647f;
+  --color-text-inverted: #f8f9fc;
+  --color-border-light: #e2e8f0;
+  --color-border-dark: #2a3447;
+}
+
+@layer base {
+  body {
+    @apply bg-background-light font-sans leading-relaxed text-[#12233f];
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif font-bold tracking-tight text-primary;
+  }
+
+  p,
+  li,
+  input,
+  textarea,
+  select,
+  button,
+  a,
+  span {
+    @apply font-sans leading-relaxed;
+  }
+}
+
+@layer components {
+  .book-hero-3d {
+    perspective: 1000px;
+    transform: rotateY(-15deg);
+    filter: drop-shadow(20px 20px 30px rgba(0, 0, 0, 0.15));
+    transform-style: preserve-3d;
+  }
+}
